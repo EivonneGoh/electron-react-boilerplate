@@ -28,6 +28,7 @@ jobs:
     - name: Package the app
       run: npm run package
 
+# On GitHub Actions, Docker Compose may not be installed by default, hence need to add this install command
     - name: Install Docker Compose
       run: |
         sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
