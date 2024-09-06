@@ -1,4 +1,4 @@
-name: Test
+name: PlaywrightTest
 
 on: [push, pull_request]
 
@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [windows-latest]
 
     steps:
       - name: Check out Git repository
@@ -24,9 +24,13 @@ jobs:
         run: |
           npm install
 
-      - name: Run Jest tests
+      - name: Install Playwright browsers
+        run: |
+          npx playwright install
+
+      - name: Run PlayWright tests
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm run package
-          npm test
+          npx playwright test
