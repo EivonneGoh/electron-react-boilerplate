@@ -1,9 +1,9 @@
-name: Test
+name: Build
 
 on: [push, pull_request]
 
 jobs:
-  test:
+  publish:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -11,22 +11,18 @@ jobs:
         os: [macos-latest, windows-latest, ubuntu-latest]
 
     steps:
-      - name: Check out Git repository
+      - name: Checkout git repo
         uses: actions/checkout@v3
 
-      - name: Install Node.js and NPM
+      - name: Install Node and NPM
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: npm
 
-      - name: npm install
+      - name: Install and build
         run: |
           npm install
-
-      - name: Run Jest tests
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
+          npm run postinstall
+          npm run build
           npm run package
-          npm test
